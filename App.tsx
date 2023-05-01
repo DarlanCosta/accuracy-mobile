@@ -1,6 +1,8 @@
+import "react-native-gesture-handler";
+import "./src/translations/i18n";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+
 import {
   useFonts,
   Inter_400Regular,
@@ -8,7 +10,9 @@ import {
   Inter_700Bold,
   Inter_800ExtraBold,
 } from "@expo-google-fonts/inter";
-import { Loading } from "./src/components/Loading";
+
+import { Loading } from "./src/components/";
+import { Routes } from "./src/routes";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -23,18 +27,9 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text>Arquivo com DB</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <StatusBar backgroundColor="#404258" />
+      <Routes />
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
