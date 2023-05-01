@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "accuracy-mobile",
+    "slug": "accuracy-mobile",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
