@@ -15,12 +15,12 @@ export function Input({ ...rest }: IInputProps) {
 			color="gray.600"
 			fontFamily="body"
 			mb={4}
-			placeholderTextColor="gray.300"
+			placeholderTextColor="gray.400"
 			cursorColor="gray.600"
 			selectionColor="gray.600"
 			_focus={{
-				backgroundColor: 'gray.100',
-				borderColor: 'gray.500'
+				backgroundColor: 'gray.200',
+				borderColor: 'blue.700'
 			}}
 			{...rest}
 		/>

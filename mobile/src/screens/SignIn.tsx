@@ -5,8 +5,6 @@ import { VStack,  Text, Center, Heading, ScrollView, useToast } from "native-bas
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes';
 import { useAuth } from '@hooks/useAuth';
 
-import LogoSvg from '@assets/logo.svg';
-
 import { AppError } from '@utils/AppError';
 
 import { Input } from "@components/Input";
@@ -51,19 +49,11 @@ export function SignIn() {
   }
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: '#fff' }} showsVerticalScrollIndicator={false}>
         <VStack flex={1} px={10} pb={16}>
 
         <Center my={24}>
-          <LogoSvg />
-
-          <Text color="gray.100" fontSize="sm">
-            Treine sua mente e o seu corpo.
-          </Text>
-        </Center>
-
-        <Center>
-          <Heading color="gray.100" fontSize="xl" mb={6} fontFamily="heading">
+          <Heading color="gray.400" fontSize="xl" mb={6} fontFamily="heading">
             Acesse a conta
           </Heading>
 

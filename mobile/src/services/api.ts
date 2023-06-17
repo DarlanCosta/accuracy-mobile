@@ -15,7 +15,7 @@ type APIInstanceProps = AxiosInstance & {
 }
 
 const api = axios.create({
-  baseURL: 'http://192.168.0.31:3333',
+  baseURL: 'http://192.168.0.49:3333',
 }) as APIInstanceProps;
 
 let failedQueued: Array<PromiseType> = [];
