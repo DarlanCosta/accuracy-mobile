@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import storage from '../database/storage';
 
 type ProductModel = {
-  cod: string;
+  ean: string;
 };
 
 const Box = ({ className = '', ...props }) => (
