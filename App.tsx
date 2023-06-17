@@ -11,8 +11,11 @@ import {
   Inter_800ExtraBold,
 } from "@expo-google-fonts/inter";
 
+import { NativeBaseProvider } from 'native-base'
+
 import { Loading } from "./src/components/";
 import { Routes } from "./src/routes";
+import { THEME } from "src/theme";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -27,9 +30,9 @@ export default function App() {
   }
 
   return (
-    <>
+    <NativeBaseProvider theme={THEME}>
       <StatusBar backgroundColor="#404258" />
       <Routes />
-    </>
+    </NativeBaseProvider>
   );
 }
