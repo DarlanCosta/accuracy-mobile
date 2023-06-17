@@ -1,141 +1,158 @@
-import { useNavigation } from '@react-navigation/native'
-import {
-	Center,
-	HStack,
-	Pressable,
-	ScrollView,
-	Stack,
-	Text,
-	VStack,
-	useTheme
-} from 'native-base'
-import { Eye, EyeSlash, PencilSimpleLine } from 'phosphor-react-native'
-import { useState } from 'react'
+import { useState } from 'react';
+import { useNavigation } from "@react-navigation/native";
+import { VStack, Text, Center, Heading, ScrollView, useToast } from "native-base";
+import { useForm, Controller } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
-import LogoSvg from '@assets/logo.svg'
+import { useAuth } from '@hooks/useAuth';
 
-import { Button } from '@components/Button'
-import { Input } from '@components/Input'
-import { TouchableOpacity } from 'react-native'
+import { api } from "@services/api";
+
+import LogoSvg from '@assets/logo.svg';
+
+import { AppError } from '@utils/AppError';
+
+import { Input } from "@components/Input";
+import { Button } from "@components/Button";
+
+
+type FormDataProps = {
+  name: string;
+  email: string;
+  password: string;
+  password_confirm: string;
+}
+
+const signUpSchema = yup.object({
+  name: yup.string().required('Informe o nome.'),
+  email: yup.string().required('Informe o e-mail').email('E-mail inválido.'),
+  password: yup.string().required('Informe a senha').min(6, 'A senha deve ter pelo menos 6 dígitos.'),
+  password_confirm: yup.string().required('Confirme a senha.').oneOf([yup.ref('password')], 'A confirmação da senha não confere')
+});
 
 export function SignUp() {
-	// Input Icon - Eye EyeSlash
-	const [showPassword, setShowPassword] = useState(false)
-	const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-	const THEME = useTheme()
+  const [isLoading, setIsLoading] = useState(false);
 
-	// stack navigation
-	const navigation = useNavigation()
+  const toast = useToast();
+  const { singIn } = useAuth();
+  
+  const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
+    resolver: yupResolver(signUpSchema),
+  });
 
-	function handleGoBack() {
-		navigation.goBack()
-	}
+  const navigation = useNavigation();
 
-	return (
-		<Stack safeArea>
-			<ScrollView showsVerticalScrollIndicator={false}>
-				<Stack bg="gray.200">
-					<VStack mx={10} mt={10} mb={32} justifyContent="center">
-						<Center>
-							<LogoSvg width={90} height={90} />
-							<Text fontFamily="heading" fontSize="lg">
-								Boas vindas!
-							</Text>
-							<Text
-								mb={4}
-								fontFamily="body"
-								fontSize="sm"
-								color="gray.400"
-								textAlign="center"
-							>
-								Crie sua conta e use o espaço para comprar itens variados e
-								vender seus produtos
-							</Text>
-							<HStack flex={1} alignItems="center" justifyContent="center">
-								<TouchableOpacity>
-									<Pressable
-										rounded="full"
-										h={10}
-										w={10}
-										mb={-10}
-										ml={-8}
-										bg="blue.500"
-										justifyContent="center"
-										alignItems="center"
-										_pressed={{ opacity: 0.9 }}
-									>
-										<PencilSimpleLine
-											size={20}
-											color={THEME.colors.gray[200]}
-										/>
-									</Pressable>
-								</TouchableOpacity>
-							</HStack>
+  function handleGoBack() {
+    navigation.goBack();
+  }
 
-							<Input placeholder="Nome" />
-							<Input placeholder="Email" />
-							<Input placeholder="Telefone" />
-							<Input
-								placeholder="Senha"
-								type={showPassword ? 'text' : 'password'}
-								InputRightElement={
-									<Pressable
-										mr={4}
-										onPress={() => setShowPassword(!showPassword)}
-									>
-										{showPassword ? (
-											<Eye color={THEME.colors.gray[400]} size={24} />
-										) : (
-											<EyeSlash color={THEME.colors.gray[400]} size={24} />
-										)}
-									</Pressable>
-								}
-							/>
-							<Input
-								placeholder="Confirmar senha"
-								type={showConfirmPassword ? 'text' : 'password'}
-								InputRightElement={
-									<Pressable
-										mr={4}
-										onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-									>
-										{showConfirmPassword ? (
-											<Eye color={THEME.colors.gray[400]} size={24} />
-										) : (
-											<EyeSlash color={THEME.colors.gray[400]} size={24} />
-										)}
-									</Pressable>
-								}
-							/>
-							<Button
-								mt={3}
-								title="Criar"
-								bgColor="gray.700"
-								_borderColor="black"
-								textColor="gray.100"
-							/>
+  async function handleSignUp({ name, email, password }: FormDataProps) {
+    try {
+      setIsLoading(true)
 
-							<Text
-								mt={16}
-								fontFamily="body"
-								fontSize="sm"
-								color="gray.400"
-								textAlign="center"
-							>
-								já tem uma conta?
-							</Text>
-							<Button
-								mt={4}
-								title="Ir para o login"
-								bgColor="gray.300"
-								_borderColor="gray.400"
-								textColor="gray.600"
-								onPress={handleGoBack}
-							/>
-						</Center>
-					</VStack>
-				</Stack>
-			</ScrollView>
-		</Stack>
-	)
+      await api.post('/users', { name, email, password });
+      await singIn(email, password)
+    } catch (error) {
+      setIsLoading(false);
+
+      const isAppError = error instanceof AppError;
+
+      const title = isAppError ? error.message : 'Não foi possível criar a conta. Tente novamente mais tarde';
+
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: 'red.500'
+      })
+    }
+  }
+
+  return (
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
+        <VStack flex={1} px={10} pb={16}>
+					
+        <Center my={24}>
+          <LogoSvg />
+
+          <Text color="gray.100" fontSize="sm">
+            Treine sua mente e o seu corpo.
+          </Text>
+        </Center>
+
+        <Center>
+          <Heading color="gray.100" fontSize="xl" mb={6} fontFamily="heading">
+            Crie sua conta
+          </Heading>
+
+          <Controller 
+            control={control}
+            name="name"
+            render={({ field: { onChange, value } }) => (
+              <Input 
+                placeholder="Nome"
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+
+          <Controller 
+            control={control}
+            name="email"
+            render={({ field: { onChange, value } }) => (
+              <Input 
+                placeholder="E-mail" 
+                keyboardType="email-address"
+                autoCapitalize="none"
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+          
+          <Controller 
+            control={control}
+            name="password"
+            render={({ field: { onChange, value } }) => (
+              <Input 
+                placeholder="Senha" 
+                secureTextEntry
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+
+          <Controller 
+            control={control}
+            name="password_confirm"
+            render={({ field: { onChange, value } }) => (
+              <Input 
+                placeholder="Confirmar a Senha" 
+                secureTextEntry
+                onChangeText={onChange}
+                value={value}
+                onSubmitEditing={handleSubmit(handleSignUp)}
+                returnKeyType="send"
+              />
+            )}
+          />
+
+          <Button 
+            title="Criar e acessar" 
+            onPress={handleSubmit(handleSignUp)}
+            isLoading={isLoading}
+          />
+        </Center>
+        
+        <Button 
+          title="Voltar para o login" 
+          variant="outline" 
+          mt={12}
+          onPress={handleGoBack}
+        />
+      </VStack>
+    </ScrollView>
+  );
 }

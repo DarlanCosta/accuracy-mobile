@@ -30,7 +30,6 @@ export const AppRoutes = () => {
         <Ionicons name="settings" color="white" size={22} /> :
         <MaterialCommunityIcons name={icon} color="white" size={22} />
     }
-
     return result
   } 
 
