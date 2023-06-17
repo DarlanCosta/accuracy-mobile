@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 
 import { AppError } from "@utils/AppError";
-//import { storageAuthTokenGet, storageAuthTokenSave } from "@storage/storageAuthToken";
+import { storageAuthTokenGet, storageAuthTokenSave } from "@storage/storageAuthToken";
 
 type SignOut = () => void;
 
@@ -53,7 +53,7 @@ api.registerInterceptTokenManager = singOut => {
         return new Promise(async (resolve, reject) => {
           try {
             const { data } = await api.post('/sessions/refresh-token', { refresh_token });
-            //await storageAuthTokenSave({ token: data.token, refresh_token: data.refresh_token });
+            await storageAuthTokenSave({ token: data.token, refresh_token: data.refresh_token });
 
             if(originalRequestConfig.data) {
               originalRequestConfig.data = JSON.parse(originalRequestConfig.data);
