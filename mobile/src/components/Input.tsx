@@ -16,7 +16,7 @@ export function Input({ ...rest }: IInputProps) {
 			fontFamily="body"
 			mb={4}
 			placeholderTextColor="gray.400"
-			cursorColor="gray.600"
+			cursorColor="#3E3A40"
 			selectionColor="gray.600"
 			_focus={{
 				backgroundColor: 'gray.200',
