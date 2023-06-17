@@ -15,7 +15,7 @@ import { NativeBaseProvider } from 'native-base'
 
 import { Loading } from "./src/components/";
 import { Routes } from "./src/routes";
-import { THEME } from "src/theme";
+import { THEME } from "./src/theme";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
