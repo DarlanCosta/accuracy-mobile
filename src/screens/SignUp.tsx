@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigation } from "@react-navigation/native";
-import { VStack, Text, Center, Heading, ScrollView, useToast } from "native-base";
+import { VStack, Image, Text, Center, Heading, ScrollView, useToast } from "native-base";
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';

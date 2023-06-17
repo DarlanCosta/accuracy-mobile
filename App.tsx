@@ -1,7 +1,9 @@
 import "react-native-gesture-handler";
 import "./src/translations/i18n";
-import { StatusBar } from "expo-status-bar";
+import { StatusBar } from "native-base";
 import React from "react";
+
+import { AuthContextProvider } from '@contexts/AuthContext';
 
 import {
   useFonts,
@@ -31,8 +33,14 @@ export default function App() {
 
   return (
     <NativeBaseProvider theme={THEME}>
-      <StatusBar backgroundColor="#404258" />
-      <Routes />
+      <StatusBar 
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
+      <AuthContextProvider>
+        {fontsLoaded ? <Routes /> : <Loading />}
+      </AuthContextProvider>
     </NativeBaseProvider>
   );
 }

@@ -1,6 +1,6 @@
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigation } from "@react-navigation/native";
-import { VStack, Text, Center, Heading, ScrollView, useToast } from "native-base";
+import { VStack,  Text, Center, Heading, ScrollView, useToast } from "native-base";
 
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes';
 import { useAuth } from '@hooks/useAuth';
