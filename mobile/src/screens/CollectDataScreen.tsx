@@ -1,21 +1,13 @@
 import { useState, useCallback } from 'react';
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { Alert } from 'react-native';
 
 import storage from '../database/storage';
+import { VStack, Text, Pressable, HStack, View } from 'native-base';
+import { ButtonCalc } from '@components/ButtonCalc';
 
 type ProductModel = {
   ean: string;
 };
-
-const Box = ({ className = '', ...props }) => (
-  <TouchableOpacity
-    className={`flex flex-1 rounded-full bg-gray1 justify-center items-center ${className}`}
-    {...props}
-  >
-    <Text className={`flex text-2xl text-white`}>{props.text}</Text>
-  </TouchableOpacity>
-);
 
 export const CollectDataScreen = () => {
   const [input, setInput] = useState('');
@@ -69,56 +61,52 @@ export const CollectDataScreen = () => {
   }, [led]);
 
   return (
-    <View className="flex flex-1 justify-center bg-blue1">
-      <LinearGradient style={{ flex: 1 }} colors={['#2b2e34', '#171b24', '#25272e']}>
-        <LinearGradient
-          style={{ flex: 1, justifyContent: 'space-around' }}
-          colors={['#242525', '#1c202a', '#000103']}
-        >
-          <View className="flex h-14 rounded-lg w-auto bg-gray-400 m-2">
-            <Text className="text-base p-1">Produto</Text>
+    <VStack flex={1} backgroundColor='white'>
+      <VStack backgroundColor='white' justifyContent='center'>
+        <VStack justifyContent= 'space-around'>
+          <View borderWidth={1} borderColor='blue.700' padding={4} mb={2}>
+            <Text color='blue.700' fontFamily='heading' mb={8}>Produto</Text>
           </View>
-          <View className="flex h-14 rounded-lg w-auto bg-gray-400 m-2">
-            <Text className="text-base p-1">EAN</Text>
+          <View borderWidth={1} borderColor='blue.700' padding={4} mb={2}>
+            <Text color='blue.700'  fontFamily='heading' mb={8}>EAN</Text>
           </View>
-          <View className="flex h-14 rounded-lg w-auto bg-gray-400 m-2">
-            <Text className="text-base p-1">Quantidade</Text>
+          <View borderWidth={1} borderColor='blue.700' padding={4}>
+            <Text color='blue.700'  fontFamily='heading' mb={8}>Quantidade</Text>
           </View>
 
           {/* <View className="flex h-20 rounded-lg w-auto bg-gray-200 m-2 items-center justify-center"> */}
-          <LinearGradient
-            className="flex h-20 rounded-lg w-auto bg-gray-200 m-2 items-center justify-center"
-            colors={['#9fa3ad', '#cad0df', '#f3f4f6']}
+          <VStack
+            h={20} rounded='lg' w='auto' bg='gray-200' m={2} alignItems='center' justifyContent='center'
           >
-            <Text className="p-2 text-gray-900 text-3xl">{led}</Text>
-          </LinearGradient>
-        </LinearGradient>
-        <View className="flex flex-1 flex-col bg-background p-2 ">
-          <View className="flex flex-1 justify-between flex-row ">
-            <Box text="7" className="m-1" onPress={() => handleTap('7')} />
-            <Box text="8" className="m-1" onPress={() => handleTap('8')} />
-            <Box text="9" className="m-1" onPress={() => handleTap('9')} />
-          </View>
-          <View className="flex flex-1 justify-between flex-row p-1">
-            <Box text="4" className="m-1" onPress={() => handleTap('4')} />
-            <Box text="5" className="m-1" onPress={() => handleTap('5')} />
-            <Box text="6" className="m-1" onPress={() => handleTap('6')} />
-          </View>
-          <View className="flex flex-1 justify-between flex-row p-1">
-            <Box text="1" className="m-1" onPress={() => handleTap('1')} />
-            <Box text="2" className="m-1" onPress={() => handleTap('2')} />
-            <Box text="3" className="m-1" onPress={() => handleTap('3')} />
-          </View>
-          <View className="flex flex-1 justify-between flex-row p-1">
-            <Box text="." className="bg-orange m-1" onPress={() => handleGetCollect()} />
-            <Box text="0" className="m-1" onPress={() => handleTap('0')} />
-            <Box text="del" className="bg-orange m-1" onPress={() => cleanLed()} />
-          </View>
-          <View className="flex flex-1 justify-between flex-row p-1">
-            <Box text="Enter" className="bg-orange m-1" onPress={() => handleSaveCollect()} />
-          </View>
-        </View>
-      </LinearGradient>
-    </View>
+            <Text>{led}</Text>
+          </VStack>
+        </VStack>
+        <VStack justifyContent='center' alignItems='center'>
+          <HStack>
+            <ButtonCalc title="7" onPress={() => handleTap('7')} />
+            <ButtonCalc title="8" onPress={() => handleTap('8')} />
+            <ButtonCalc title="9" onPress={() => handleTap('9')} />
+          </HStack>
+          <HStack>
+            <ButtonCalc title="4" onPress={() => handleTap('4')} />
+            <ButtonCalc title="5" onPress={() => handleTap('5')} />
+            <ButtonCalc title="6" onPress={() => handleTap('6')} />
+          </HStack>
+          <HStack>
+            <ButtonCalc title="1" onPress={() => handleTap('1')} />
+            <ButtonCalc title="2" onPress={() => handleTap('2')} />
+            <ButtonCalc title="3" onPress={() => handleTap('3')} />
+          </HStack>
+          <HStack >
+            <ButtonCalc title="." fontFamily='heading' variant='outline' onPress={() => handleGetCollect()} />
+            <ButtonCalc title="0" onPress={() => handleTap('0')} />
+            <ButtonCalc title="Del" variant='outline' onPress={() => cleanLed()} />
+          </HStack>
+          <HStack>
+            <ButtonCalc title="Enter" variant='outline' onPress={() => handleSaveCollect()} />
+          </HStack>
+        </VStack>
+      </VStack>
+    </VStack>
   );
 };

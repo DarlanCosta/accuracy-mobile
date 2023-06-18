@@ -22,7 +22,7 @@ export const AppRoutes = () => {
     const result : DrawerNavigationOptions = {
       headerTitle: () => <Text className="text-lg text-slate-50">{t(text)}</Text> , 
       headerStyle: {
-        backgroundColor: '#474E68',
+        backgroundColor: '#364D9D',
       },
       headerTintColor: '#fff',
       drawerLabel: () => <Text className="text-sm text-slate-50">{t(text)}</Text>,
@@ -34,7 +34,7 @@ export const AppRoutes = () => {
   } 
 
   return (
-    <Drawer.Navigator screenOptions={{ drawerStyle: { backgroundColor: '#474E68' }}}>
+    <Drawer.Navigator screenOptions={{ drawerStyle: { backgroundColor: '#364D9D' }}}>
       <Drawer.Screen 
         name="HomeScreen" 
         component={HomeScreen}

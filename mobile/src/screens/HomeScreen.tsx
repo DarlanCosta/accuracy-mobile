@@ -1,7 +1,9 @@
-import { LinearGradient } from 'expo-linear-gradient';
+import { VStack, Text } from 'native-base';
 
 export const HomeScreen = () => {
   return (
-    <LinearGradient style={{ flex: 1 }} colors={['#4c669f', '#3b5998', '#192f6a']}></LinearGradient>
+    <VStack flex={1} backgroundColor='white' justifyContent='center' alignItems='center'>
+      <Text color='gray.500'>Home</Text>
+    </VStack>
   );
 };
