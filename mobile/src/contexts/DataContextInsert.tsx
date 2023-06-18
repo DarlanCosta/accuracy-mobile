@@ -17,9 +17,9 @@ type DataContextProviderProps = {
 
 export const DataContext = createContext<DataContextProps>({} as DataContextProps);
 
-export function DataContextProviderSave({ children }: DataContextProviderProps) {
+export function DataContextProvider({ children }: DataContextProviderProps) {
 
-  async function handleInsertCollect(data: DataDTO) {
+  function handleInsertCollect(data: DataDTO) {
     storage.set('collects', JSON.stringify(data));
 
     console.log('Insert =>', data)

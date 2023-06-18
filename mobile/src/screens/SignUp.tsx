@@ -68,7 +68,7 @@ export function SignUp() {
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: 'bgColor' }} showsVerticalScrollIndicator={false}>
-        <VStack flex={1} px={10} pb={16}>
+        <VStack flex={1} px={10} pb={16} bg='bgColor'>
 
         <Center my={24}>
           <Heading color="gray.400" fontSize="xl" mb={6} fontFamily="heading">

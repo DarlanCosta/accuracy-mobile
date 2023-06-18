@@ -4,9 +4,7 @@ import { Alert } from 'react-native';
 import { VStack, Text, HStack, View, Box } from 'native-base';
 import { ButtonCalc } from '@components/ButtonCalc';
 
-import { DataContext } from '@contexts/DataContextInsert';
 import { useData } from '@hooks/useData';
-import storage from '../database/storage';
 
 
 type CollectDataScreenProps = {
@@ -69,9 +67,8 @@ export const CollectDataScreen = ({ route }:CollectDataScreenProps ) => {
       amount: amount,
       amount_packing: amount_packing
     };
-
-    storage.set('collects', JSON.stringify(data));
-    console.log('Insert =>', data)
+  
+     handleInsertCollect(data);
   }
 
   return (
