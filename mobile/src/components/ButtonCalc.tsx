@@ -8,7 +8,7 @@ type Props = IButtonProps & {
 export function ButtonCalc({ title, variant = 'solid', ...rest }: Props) {
   return (
     <ButtonNativeBase
-      h={14}
+      h={12}
       justifyContent='center'
       flex={1}
       m={1}

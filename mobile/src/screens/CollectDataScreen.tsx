@@ -1,15 +1,18 @@
 import { useState, useCallback } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Modal } from 'react-native';
 
 import storage from '../database/storage';
-import { VStack, Text, Pressable, HStack, View } from 'native-base';
+import { VStack, Text, HStack, View, Box } from 'native-base';
 import { ButtonCalc } from '@components/ButtonCalc';
+import { Button } from '@components/Button';
 
 type ProductModel = {
+  name: string;
   ean: string;
+  amount: number;
 };
 
-export const CollectDataScreen = () => {
+export const CollectDataScreen = ({ name, ean, amount}: ProductModel) => {
   const [input, setInput] = useState('');
   const [products, setProducts] = useState({});
   const [led, setLed] = useState('');
@@ -24,9 +27,20 @@ export const CollectDataScreen = () => {
     quantity_packing: '',
   });
 
+  const [modalVisible, setModalVisible] = useState(false);
+
+  function OpenModal() {
+    setModalVisible(true);
+  }
+  function CloseModal() {
+    setModalVisible(false);
+  }
+
   const handleSaveCollect = useCallback(async () => {
-    storage.set('collects', JSON.stringify({ led, quantidade: 0 }));
-    Alert.alert('Created!');
+    OpenModal();
+    if (modalVisible) {
+      storage.set('collects', JSON.stringify({ led, quantidade: 0 }));
+    }
   }, []);
 
   const handleGetCollect = useCallback(async () => {
@@ -63,15 +77,57 @@ export const CollectDataScreen = () => {
   return (
     <VStack flex={1} backgroundColor='white'>
       <VStack backgroundColor='white' justifyContent='center'>
+        <Modal
+          animationType="none"
+          transparent
+          visible={modalVisible}
+          onRequestClose={CloseModal}
+        >
+          <VStack 
+            backgroundColor= 'rgba(0, 0, 0, 0.4)'
+            alignItems= 'center'
+            position= 'absolute'
+            bottom= {0}
+            left= {0}
+            right= {0}
+            height= '100%'
+          >
+            <Box
+              ml={4}
+              mr={4}
+              padding={2}
+              alignItems= 'center'
+              borderRadius= {8}
+              backgroundColor= 'gray.100'
+              height= {72}
+              marginTop= {32}
+              width= {96}
+            >
+              <VStack alignItems='center' justifyContent='center' mb={5}>
+                <Text mb={2} fontFamily='heading' fontSize='xl'>Created!</Text>
+                <Text color='black' fontFamily='heading' fontSize='md' mb={2}>Produto</Text>
+                <Text color='black' fontFamily='body' fontSize='xs'>{name}</Text>
+                <Text color='black' fontFamily='heading' fontSize='md' mb={2}>EAN</Text>
+                <Text color='black' fontFamily='body' fontSize='xs'>{ean}</Text>
+                <Text color='black' fontFamily='heading' fontSize='md' mb={2}>Quantidade</Text>
+                <Text color='black' fontFamily='body' fontSize='xs'>{amount}</Text>
+              </VStack>
+              <Button w='30%' title="Ok" onPress={CloseModal} />
+            </Box>
+          </VStack>
+        </Modal>
         <VStack justifyContent= 'space-around'>
           <View borderWidth={1} borderColor='blue.700' padding={4} mb={2}>
-            <Text color='blue.700' fontFamily='heading' mb={8}>Produto</Text>
+            <Text color='blue.700' fontFamily='heading' fontSize={18} mb={4}>Produto</Text>
+            <Text color='blue.700' fontFamily='body'> {name} </Text>
           </View>
           <View borderWidth={1} borderColor='blue.700' padding={4} mb={2}>
-            <Text color='blue.700'  fontFamily='heading' mb={8}>EAN</Text>
+            <Text color='blue.700'  fontFamily='heading' fontSize={18} mb={4}>EAN</Text>
+            <Text color='blue.700' fontFamily='body'> {ean} </Text>
           </View>
           <View borderWidth={1} borderColor='blue.700' padding={4}>
-            <Text color='blue.700'  fontFamily='heading' mb={8}>Quantidade</Text>
+            <Text color='blue.700'  fontFamily='heading' fontSize={18} mb={4}>Quantidade</Text>
+            <Text color='blue.700' fontFamily='body'> {amount} </Text>
           </View>
 
           {/* <View className="flex h-20 rounded-lg w-auto bg-gray-200 m-2 items-center justify-center"> */}
