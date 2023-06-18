@@ -49,7 +49,7 @@ export function SignIn() {
   }
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: '#fff' }} showsVerticalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: 'bgColor' }} showsVerticalScrollIndicator={false}>
         <VStack flex={1} px={10} pb={16}>
 
         <Center my={24}>

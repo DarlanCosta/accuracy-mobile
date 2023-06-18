@@ -1,9 +1,24 @@
+import { Button } from '@components/Button';
+import { useNavigation } from '@react-navigation/native';
 import { VStack, Text } from 'native-base';
 
 export const HomeScreen = () => {
+  const navigation = useNavigation();
+
+  function handleNavigationCollectData() {
+    const params = {
+      name: 'Teste',
+      ean: 12456789090,
+      amount: 100,
+      amount_packing: 100,
+    };
+
+    navigation.navigate('captureDataScreen', params);
+  }
+
   return (
-    <VStack flex={1} backgroundColor='white' justifyContent='center' alignItems='center'>
-      <Text color='gray.500'>Home</Text>
+    <VStack flex={1} backgroundColor='bgColor' justifyContent='center' alignItems='center'>
+      <Button title='Home' w={32} onPress={handleNavigationCollectData} />
     </VStack>
   );
 };

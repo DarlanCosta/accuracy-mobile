@@ -5,7 +5,7 @@ type Props = IButtonProps & {
   variant?: 'solid' | 'outline'
 }
 
-export function ButtonCalc({ title, variant = 'solid', ...rest }: Props) {
+export function ButtonCalc({ title, variant = 'outline', ...rest }: Props) {
   return (
     <ButtonNativeBase
       h={12}
@@ -13,17 +13,17 @@ export function ButtonCalc({ title, variant = 'solid', ...rest }: Props) {
       flex={1}
       m={1}
       alignItems='center'
-      bg={variant === 'outline' ? 'transparent' : 'blue.700'}
+      bg={variant === 'outline' ? 'transparent' : 'buttonCollect'}
       borderWidth={variant === 'outline' ? 2 : 0}
-      borderColor="blue.500"
+      borderColor="buttonCollect"
       rounded="full"
       _pressed={{
-        bg: variant === 'outline' ? 'gray.500' : 'blue.500'  
+        bg: variant === 'outline' ? 'gray.500' : 'buttonCollect'  
       }}
       {...rest}
     >
       <Text 
-        color={variant === 'outline' ? 'blue.500' : 'white'}
+        color={variant === 'outline' ? 'buttonCollect' : 'white'}
         fontFamily="heading"
         fontSize="sm"
       >

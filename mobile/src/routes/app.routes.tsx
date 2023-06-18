@@ -22,8 +22,9 @@ export const AppRoutes = () => {
     const result : DrawerNavigationOptions = {
       headerTitle: () => <Text className="text-lg text-slate-50">{t(text)}</Text> , 
       headerStyle: {
-        backgroundColor: '#364D9D',
+        backgroundColor: '#1A1A1A',
       },
+      drawerActiveBackgroundColor: '#f5e500d8',
       headerTintColor: '#fff',
       drawerLabel: () => <Text className="text-sm text-slate-50">{t(text)}</Text>,
       drawerIcon: () => icon == 'settings' ? 
@@ -34,41 +35,41 @@ export const AppRoutes = () => {
   } 
 
   return (
-    <Drawer.Navigator screenOptions={{ drawerStyle: { backgroundColor: '#364D9D' }}}>
+    <Drawer.Navigator screenOptions={{ drawerStyle: { backgroundColor: '#1A1A1A' }}}>
       <Drawer.Screen 
-        name="HomeScreen" 
+        name="homeScreen" 
         component={HomeScreen}
         options={() => params('Home', 'home')} />
       <Drawer.Screen 
-        name="CaptureDataScreen"
+        name="captureDataScreen"
         component={CollectDataScreen}
         options={() => params('Coletar dados', 'barcode-scan')} 
       />
       <Drawer.Screen 
-        name="ListDataScreen"
+        name="listDataScreen"
         component={ListDataScreen}
         options={() => params('Listar dados capturados', 'list-status')} 
       />
       <Drawer.Screen 
-        name="ListProductsScreen"
+        name="listProductsScreen"
         component={ListProductsScreen}
         options={() => params('Listar cadastro de produtos', 'view-list')} 
        
       />
       <Drawer.Screen 
-        name="SyncProductsScreen"
+        name="syncProductsScreen"
         component={SyncProductsScreen}
         options={() => params('Sincronizar cadastro de produtos', 'database-sync')} 
        
       />
       <Drawer.Screen 
-        name="UploadScreen"
+        name="uploadScreen"
         component={UploadScreen}
         options={() => params('Enviar dados para o servidor', 'cloud-upload')} 
         
       />
       <Drawer.Screen 
-        name="SettingsScreen"
+        name="settingsScreen"
         component={SettingsScreen}
         options={() => params('Configurações', 'settings')} 
       

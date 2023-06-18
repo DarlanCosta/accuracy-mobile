@@ -7,7 +7,7 @@ export const THEME = extendTheme({
 			500: '#647AC7'
 		},
 		gray: {
-			700: '#1A181B',
+			700: '#0F1621',
 			600: '#3E3A40',
 			500: '#5F5B62',
 			400: '#9F9BA1',
@@ -15,10 +15,16 @@ export const THEME = extendTheme({
 			200: '#EDECEE',
 			100: '#F7F7F8'
 		},
-		white: '#FFFFFF',
+		bgColor: '#1A1A1A',
+
 		red: {
 			400: '#EE7979'
-		}
+		},
+
+		buttonCollect: '#f5e500bc',
+	
+		buttonColor: '#f5e500d8'
+
 	},
 	fonts: {
 		heading: 'Karla_700Bold',

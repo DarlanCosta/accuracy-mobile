@@ -9,7 +9,7 @@ export const SettingsScreen = () => {
   };
 
   return (
-    <VStack flex={1} backgroundColor='white' justifyContent='center' alignItems='center'>
+    <VStack flex={1} backgroundColor='bgColor' justifyContent='center' alignItems='center'>
       <Pressable onPress={() => changeLanguage('pt')}>
         <Text color='gray.500'>{t('Configurações')}</Text>
       </Pressable>
