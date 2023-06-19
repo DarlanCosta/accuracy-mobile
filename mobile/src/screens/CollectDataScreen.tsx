@@ -13,8 +13,8 @@ type CollectDataScreenProps = {
     params: {
       name: string;
       ean: number;
-      amount: number;
-      amount_packing: number;
+      amount: string;
+      amount_packing: string;
     };
   };
 };
@@ -64,7 +64,7 @@ export const CollectDataScreen = ({ route }:CollectDataScreenProps ) => {
     const data = {
       name: name,
       ean: ean,
-      amount: amount,
+      amount: led,
       amount_packing: amount_packing
     }
   
@@ -86,7 +86,7 @@ export const CollectDataScreen = ({ route }:CollectDataScreenProps ) => {
               </View>
               <View rounded='xl' padding={4}>
                 <Text color='white' fontFamily='heading' fontSize={18} mb={4}>Quantidade</Text>
-                <Text color='white' fontFamily='body'> {amount} </Text>
+                <Text color='white' fontFamily='body'>{led} </Text>
               </View>
             </VStack>
 

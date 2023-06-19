@@ -1,6 +1,6 @@
 export type DataDTO = {
   name: string,
   ean: number,
-  amount: number,
-  amount_packing: number,
+  amount: string,
+  amount_packing: string,
 }

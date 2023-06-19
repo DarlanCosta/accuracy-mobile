@@ -9,8 +9,8 @@ export const HomeScreen = () => {
     const params = {
       name: 'Teste',
       ean: 124522323232323,
-      amount: 23,
-      amount_packing: 49,
+      amount: '',
+      amount_packing: '49',
     };
 
     navigation.navigate('captureDataScreen', params);

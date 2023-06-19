@@ -4,8 +4,8 @@ export declare global {
       captureDataScreen: {
        name: string;
        ean: number;
-       amount: number;
-       amount_packing: number;
+       amount: string;
+       amount_packing: string;
       },
       homeScreen: undefined;
       listDataScreen: undefined;
