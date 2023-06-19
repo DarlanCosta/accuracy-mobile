@@ -3,7 +3,7 @@ export declare global {
     interface RootParamList {
       captureDataScreen: {
        name: string;
-       ean: number;
+       ean: string;
        amount: string;
        amount_packing: string;
       },

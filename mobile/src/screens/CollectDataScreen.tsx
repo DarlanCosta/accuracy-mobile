@@ -12,7 +12,7 @@ type CollectDataScreenProps = {
   route: {
     params: {
       name: string;
-      ean: number;
+      ean: string;
       amount: string;
       amount_packing: string;
     };
@@ -119,7 +119,7 @@ export const CollectDataScreen = ({ route }:CollectDataScreenProps ) => {
               <ButtonCalc title="Del"  onPress={() => cleanLed()} />
             </HStack>
             <HStack>
-              <ButtonCalc title="Enter"  onPress={() => handleCadastrar()} />
+              <ButtonCalc title="Enter" onPress={() => handleCadastrar()} />
             </HStack>
           </VStack>
         </VStack>

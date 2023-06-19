@@ -6,6 +6,7 @@ import { DataDTO } from "@dtos/DataDTO";
 
 export type DataContextProps = {
   handleInsertCollect: (data: DataDTO) => Promise<void>;
+  handleDeleteCollect: () => Promise<void>;
 }
 
 type DataContextProviderProps = {
@@ -21,9 +22,15 @@ export function DataContextProvider({ children }: DataContextProviderProps) {
     console.log('Insert =>', data)
   }
 
+  async function handleDeleteCollect() {
+    storage.delete('collects');
+    console.log( storage.getString('collects') )
+  }
+
   return (
     <DataContext.Provider value={{ 
       handleInsertCollect,
+      handleDeleteCollect
     }}>
       {children}
     </DataContext.Provider>
