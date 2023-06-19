@@ -14,19 +14,19 @@ type Props = {
 export function DataCard({ data }: Props) {
   return (
     <VStack flex={1} bgColor='buttonColor'>
-      <Text>
+      <Text color='white'>
         {data.name}
       </Text>
 
-      <Text>
+      <Text color='white'>
         {data.ean}
       </Text>
 
-      <Text>
+      <Text color='white'>
         {data.amount}
       </Text>
 
-      <Text>
+      <Text color='white'>
         {data.amount_packing}
       </Text>
     </VStack>

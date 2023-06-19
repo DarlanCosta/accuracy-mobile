@@ -1,12 +1,15 @@
-import { ReactNode, createContext } from "react";
+import { ReactNode, createContext, useState } from "react";
 import storage from "../database/storage"
 
 import { DataDTO } from "@dtos/DataDTO";
+import { DataCardProps } from "@components/DataCard";
 
 
 export type DataContextProps = {
-  handleInsertCollect: (data: DataDTO) => Promise<void>;
-  handleDeleteCollect: () => Promise<void>;
+  data: DataCardProps[];
+  handleInsertCollect: (data: DataDTO) => void;
+  handleDeleteCollect: () => void;
+  handleListCollect: () => void;
 }
 
 type DataContextProviderProps = {
@@ -17,20 +20,35 @@ export const DataContext = createContext<DataContextProps>({} as DataContextProp
 
 export function DataContextProvider({ children }: DataContextProviderProps) {
 
-  async function handleInsertCollect(data: DataDTO) {
+  const [data, setData] = useState<DataCardProps[]>([]);
+
+  function handleInsertCollect(data: DataDTO) {
     storage.set('collects', JSON.stringify(data));
     console.log('Insert =>', data)
   }
 
-  async function handleDeleteCollect() {
+  function handleDeleteCollect() {
     storage.delete('collects');
     console.log( storage.getString('collects') )
   }
 
+  function handleListCollect() {
+    const responseList = storage.getString('collects');
+    
+    if (responseList) {
+      const parsedData = JSON.parse(responseList);
+      setData(parsedData);
+      console.log('Data (before):', data);
+      console.log('Data (after):', parsedData);
+    }
+  }
+
   return (
-    <DataContext.Provider value={{ 
+    <DataContext.Provider value={{
+      data,
       handleInsertCollect,
-      handleDeleteCollect
+      handleDeleteCollect,
+      handleListCollect
     }}>
       {children}
     </DataContext.Provider>

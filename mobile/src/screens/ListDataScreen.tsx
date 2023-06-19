@@ -8,19 +8,10 @@ import { useData } from '@hooks/useData';
 
 export const ListDataScreen = () => {
 
-  const [data, setData] = useState<DataCardProps[]>([]);
-
-  const { handleDeleteCollect } = useData();
+  const { handleDeleteCollect, handleListCollect, data } = useData();
 
   function handlePress() {
-    const responseList = storage.getString('collects');
-    
-    if (responseList) {
-      const parsedData = JSON.parse(responseList);
-      setData(parsedData);
-      console.log('Data (before):', data);
-      console.log('Data (after):', parsedData);
-    }
+    handleListCollect()
   }
 
   function handleDelete() {
