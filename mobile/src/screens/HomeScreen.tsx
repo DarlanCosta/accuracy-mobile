@@ -7,10 +7,10 @@ export const HomeScreen = () => {
 
   function handleNavigationCollectData() {
     const params = {
-      name: 'Teste',
-      ean: '12452232',
+      name: 'Coca',
+      ean: '12452232ww',
       amount: '',
-      amount_packing: '421',
+      amount_packing: '42133',
     };
 
     navigation.navigate('captureDataScreen', params);
