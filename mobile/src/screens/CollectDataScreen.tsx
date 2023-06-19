@@ -34,7 +34,7 @@ export const CollectDataScreen = ({ route }:CollectDataScreenProps ) => {
     quantity_packing: '',
   });
 
-  const { handleInsertCollect } = useData();
+  const { handleInsertCollect, handleListCollect } = useData();
 
   const { name, ean, amount, amount_packing } = route.params || { name: 'Sem Nome', ean: 0, amount: 0, amount_packing: 0};
 
@@ -69,6 +69,7 @@ export const CollectDataScreen = ({ route }:CollectDataScreenProps ) => {
     }
   
     handleInsertCollect(data)
+    handleListCollect()
   }
 
   return (

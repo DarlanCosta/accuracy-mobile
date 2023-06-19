@@ -8,18 +8,16 @@ type Props = {
 
 export function DataList({ data }: Props) {
   return (
-    <VStack flex={1}>
-      <FlatList
-        data={data}
-        keyExtractor={item => item.ean}
-        renderItem={({ item }) => (
-                <DataCard
-                  data={item} 
-                />
-              )}
-        _contentContainerStyle={{ alignItems: 'center', paddingBottom: 20 }}
-        showsVerticalScrollIndicator={false}
-      />
-    </VStack>
+    <FlatList
+      data={data}
+      keyExtractor={item => item.ean}
+      renderItem={({ item }) => (
+              <DataCard
+                data={item} 
+              />
+            )}
+      _contentContainerStyle={{ alignItems: 'center', paddingBottom: 20 }}
+      showsVerticalScrollIndicator={false}
+    />
   );
 }

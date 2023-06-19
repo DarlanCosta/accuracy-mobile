@@ -13,7 +13,7 @@ type Props = {
 
 export function DataCard({ data }: Props) {
   return (
-    <VStack flex={1} bgColor='buttonColor'>
+    <VStack flex={1} bgColor='gray.100'>
       <Text color='white'>
         {data.name}
       </Text>
