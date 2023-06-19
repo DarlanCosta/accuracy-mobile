@@ -18,6 +18,7 @@ import { NativeBaseProvider } from 'native-base'
 import { Loading } from "./src/components/";
 import { Routes } from "./src/routes";
 import { THEME } from "./src/theme";
+import { DataContextProvider } from "@contexts/DataContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -39,7 +40,9 @@ export default function App() {
         translucent
       />
       <AuthContextProvider>
-        {fontsLoaded ? <Routes /> : <Loading />}
+        <DataContextProvider>
+          {fontsLoaded ? <Routes /> : <Loading />}
+        </DataContextProvider>
       </AuthContextProvider>
     </NativeBaseProvider>
   );

@@ -5,6 +5,7 @@ import { VStack, Text, HStack, View, Box } from 'native-base';
 import { ButtonCalc } from '@components/ButtonCalc';
 
 import { useData } from '@hooks/useData';
+import { useAuth } from '@hooks/useAuth';
 
 
 type CollectDataScreenProps = {
@@ -19,7 +20,6 @@ type CollectDataScreenProps = {
 };
 
 export const CollectDataScreen = ({ route }:CollectDataScreenProps ) => {
-
   const [input, setInput] = useState('');
   const [products, setProducts] = useState({});
   const [led, setLed] = useState('');
@@ -34,9 +34,9 @@ export const CollectDataScreen = ({ route }:CollectDataScreenProps ) => {
     quantity_packing: '',
   });
 
-  const { name, ean, amount, amount_packing } = route.params;
-  
   const { handleInsertCollect } = useData();
+
+  const { name, ean, amount, amount_packing } = route.params;
 
   const handleTap = useCallback(
     (number: any) => {
@@ -60,15 +60,15 @@ export const CollectDataScreen = ({ route }:CollectDataScreenProps ) => {
     }
   }, [led]);
 
-  async function handleCadastrar() {
+  function handleCadastrar() {
     const data = {
       name: name,
       ean: ean,
       amount: amount,
       amount_packing: amount_packing
-    };
+    }
   
-     handleInsertCollect(data);
+    handleInsertCollect(data)
   }
 
   return (
