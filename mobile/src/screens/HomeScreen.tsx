@@ -8,9 +8,9 @@ export const HomeScreen = () => {
   function handleNavigationCollectData() {
     const params = {
       name: 'Teste',
-      ean: '12452232',
+      ean: '124522',
       amount: '',
-      amount_packing: '41',
+      amount_packing: '421',
     };
 
     navigation.navigate('captureDataScreen', params);
