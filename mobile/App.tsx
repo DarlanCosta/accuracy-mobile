@@ -21,16 +21,6 @@ import { THEME } from "./src/theme";
 import { DataContextProvider } from "@contexts/DataContext";
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
-    Inter_400Regular,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    Inter_800ExtraBold,
-  });
-
-  if (!fontsLoaded) {
-    return <Loading />;
-  }
 
   return (
     <NativeBaseProvider theme={THEME}>
@@ -41,7 +31,7 @@ export default function App() {
       />
       <AuthContextProvider>
         <DataContextProvider>
-          {fontsLoaded ? <Routes /> : <Loading />}
+           <Routes />
         </DataContextProvider>
       </AuthContextProvider>
     </NativeBaseProvider>
