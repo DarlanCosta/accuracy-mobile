@@ -36,7 +36,7 @@ export const CollectDataScreen = ({ route }:CollectDataScreenProps ) => {
 
   const { handleInsertCollect } = useData();
 
-  const { name, ean, amount, amount_packing } = route.params;
+  const { name, ean, amount, amount_packing } = route.params || { name: 'Sem Nome', ean: 0, amount: 0, amount_packing: 0};
 
   const handleTap = useCallback(
     (number: any) => {
