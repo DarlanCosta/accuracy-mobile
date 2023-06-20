@@ -1,4 +1,4 @@
-export const Dataschema = {
+export const DataSchema = {
   name: 'DataRealm',
   properties: {
     _id: 'string',

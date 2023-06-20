@@ -2,8 +2,8 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 
 import { api } from '@services/api';
 import { UserDTO } from "@dtos/UserDTO";
-import { storageUserGet, storageUserRemove, storageUserSave } from "@storage/storageUser";
-import { storageAuthTokenGet, storageAuthTokenRemove, storageAuthTokenSave } from "@storage/storageAuthToken";
+import { storageUserGet, storageUserRemove, storageUserSave } from "@database/storageHooks";
+import { storageAuthTokenGet, storageAuthTokenRemove, storageAuthTokenSave } from "@database/storageHooks";
 
 export type AuthContextDataProps = {
   user: UserDTO;
@@ -33,8 +33,11 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
   async function storageUserAndTokenSave(userData: UserDTO, token: string, refresh_token: string) {
     try {
       setIsLoadingUserStorageData(true)
-     await storageUserSave(userData);
-     await storageAuthTokenSave({ token, refresh_token });
+     const responseUser = await storageUserSave(userData);
+     const responseToken = await storageAuthTokenSave({ token, refresh_token });
+
+     console.log(responseUser)
+     console.log(responseToken)
       
     } catch (error) {
       throw error
@@ -46,6 +49,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
   async function singIn(email: string, password: string) {
     try {
       const { data } = await api.post('/sessions', { email, password });
+
+      console.log(data)
+
+      //O Problema Ta aqui pq a requisição é bem sucedidad mas dps algo acontece nesse if que retorna o erro
      
       if(data.user && data.token && data.refresh_token) {
         await storageUserAndTokenSave(data.user, data.token, data.refresh_token);

@@ -1,7 +1,9 @@
 import Realm from "realm";
-import { Dataschema } from "./schemas/DataSchema";
+import { DataSchema } from "./schemas/DataSchema";
+import { UserSchema } from "./schemas/UserSchema";
+import { AuthTokenSchema } from "./schemas/AuthTokenSchema";
 
 export const getRealm = async () => await Realm.open({
   path: "accuracy-app",
-  schema: [Dataschema]
+  schema: [DataSchema, UserSchema, AuthTokenSchema ]
 })

@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 
 import { AppError } from "@utils/AppError";
-import { storageAuthTokenGet, storageAuthTokenSave } from "@storage/storageAuthToken";
+import { storageAuthTokenGet, storageAuthTokenSave } from "@database/storageHooks";
 
 type SignOut = () => void;
 
