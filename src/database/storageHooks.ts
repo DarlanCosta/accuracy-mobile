@@ -9,6 +9,8 @@ type StorageAuthTokenProps = {
 
 export async  function storageUserSave(userData: UserDTO) {
   const realm = await getRealm();
+
+  console.log('storageUserSave-UserData =>', userData);
     
   try {
     realm.write(() => {
@@ -61,6 +63,8 @@ export async function storageUserRemove() {
 
 export async  function storageAuthTokenSave({token, refresh_token}: StorageAuthTokenProps) {
   const realm = await getRealm();
+
+  console.log('AuthToken =>', token, refresh_token);
 
   try {
     realm.write(() => {

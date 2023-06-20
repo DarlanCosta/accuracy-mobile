@@ -33,11 +33,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
   async function storageUserAndTokenSave(userData: UserDTO, token: string, refresh_token: string) {
     try {
       setIsLoadingUserStorageData(true)
-     const responseUser = await storageUserSave(userData);
-     const responseToken = await storageAuthTokenSave({ token, refresh_token });
-
-     console.log(responseUser)
-     console.log(responseToken)
+      //Dentro do storageUserSave ta chegando os dados normalmente tem um console.log pra teste lá
+      await storageUserSave(userData);
+      //dentro do storageAuthTokenSave tbm esta chegando normalmente os dados tem um console.log pra teste lá
+      await storageAuthTokenSave({ token, refresh_token });
       
     } catch (error) {
       throw error
@@ -53,7 +52,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
       console.log(data)
 
       //O Problema Ta aqui pq a requisição é bem sucedidad mas dps algo acontece nesse if que retorna o erro
-     
       if(data.user && data.token && data.refresh_token) {
         await storageUserAndTokenSave(data.user, data.token, data.refresh_token);
         userAndTokenUpdate(data.user, data.token)
