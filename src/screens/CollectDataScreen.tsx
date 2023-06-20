@@ -69,7 +69,6 @@ export const CollectDataScreen = ({ route }:CollectDataScreenProps ) => {
     }
   
     handleInsertCollect(data)
-    handleListCollect()
   }
 
   return (

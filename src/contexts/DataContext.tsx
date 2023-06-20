@@ -1,12 +1,10 @@
 import { ReactNode, createContext, useState } from "react";
-import storage from "../database/storage"
-
 import { DataDTO } from "@dtos/DataDTO";
-import { DataCardProps } from "@components/DataCard";
-
+import uuid from 'react-native-uuid';
+import { getRealm } from "@database/useRealm";
 
 export type DataContextProps = {
-  data: DataCardProps[];
+  data: DataDTO[];
   handleInsertCollect: (data: DataDTO) => void;
   handleDeleteCollect: () => void;
   handleListCollect: () => void;
@@ -20,27 +18,37 @@ export const DataContext = createContext<DataContextProps>({} as DataContextProp
 
 export function DataContextProvider({ children }: DataContextProviderProps) {
 
-  const [data, setData] = useState<DataCardProps[]>([]);
+  const [data, setData] = useState<DataDTO[]>([]);
 
-  function handleInsertCollect(data: DataDTO) {
-    storage.set('collects', JSON.stringify(data));
-    console.log('Insert =>', data)
+  async function handleInsertCollect(data:DataDTO) {
+    const realm = await getRealm();
+
+    try {
+      realm.write(() => {
+       const created = realm.create('DataRealm',{
+          _id: uuid.v4(),
+          name: 'data.name',
+          ean: 'data.ean',
+          amount: 'data.amount',
+          amount_packing: 'data.amount_packing',
+        })
+
+        console.log('Realm =>',created)
+      });
+
+    } catch (error) {
+      throw error
+    } finally {
+      realm.close();
+    }
   }
 
   function handleDeleteCollect() {
-    storage.delete('collects');
-    console.log( storage.getString('collects') )
+   
   }
 
   function handleListCollect() {
-    const responseList = storage.getString('collects');
     
-    if (responseList) {
-      const parsedData = JSON.parse(responseList);
-      setData(parsedData);
-      console.log('Data (before):', data);
-      console.log('Data (after):', parsedData);
-    }
   }
 
   return (

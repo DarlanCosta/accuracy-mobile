@@ -1,9 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
-import { FlatList, VStack } from 'native-base';
-import { DataCard, DataCardProps } from './DataCard';
+import { FlatList } from 'native-base';
+import { DataCard } from './DataCard';
+import { DataDTO } from '@dtos/DataDTO';
 
 type Props = {
-  data: DataCardProps[];
+  data: DataDTO[];
 }
 
 export function DataList({ data }: Props) {

@@ -1,14 +1,8 @@
+import { DataDTO } from '@dtos/DataDTO';
 import { Text, VStack} from 'native-base';
 
-export type DataCardProps = {
-  name: string,
-  ean: string,
-  amount: string,
-  amount_packing: string,
-};
-
 type Props = {
-  data: DataCardProps;
+  data: DataDTO;
 }
 
 export function DataCard({ data }: Props) {
