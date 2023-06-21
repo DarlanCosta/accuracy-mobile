@@ -1,27 +1,40 @@
-import { IInputProps, Input as NativeBaseInput, useTheme } from 'native-base'
+import { Input as NativeBaseInput, IInputProps, FormControl } from 'native-base';
 
-export function Input({ ...rest }: IInputProps) {
-	const theme = useTheme()
+type Props = IInputProps & {
+  errorMessage?: string | null;
+}
 
-	return (
-		<NativeBaseInput
-			bg="transparent"
-			h={12}
-			px={4}
-			borderWidth={1}
-			borderColor="buttonColor"
-			borderRadius="lg"
-			fontSize="md"
-			color="white"
-			fontFamily="body"
-			mb={4}
-			placeholderTextColor="gray.400"
-			selectionColor="gray.600"
-			_focus={{
-				backgroundColor: '#3E3A40',
-				borderColor: 'buttonColor'
-			}}
-			{...rest}
-		/>
-	)
+export function Input({ errorMessage = null, isInvalid, ...rest }: Props) {
+  const invalid = !!errorMessage || isInvalid;
+
+  return (
+    <FormControl isInvalid={invalid} mb={4}>
+      <NativeBaseInput 
+        bg="transparent"
+        h={14}
+        px={4}
+        borderWidth={1}
+        borderColor='buttonColor'
+        fontSize="md"
+        color="white"
+        fontFamily="body"
+        placeholderTextColor="gray.300"
+        isInvalid={invalid}
+        _invalid={{
+          borderWidth: 1,
+          borderColor: "red.500"
+        }}
+        _focus={{
+          bgColor: '#3E3A40',
+          borderWidth: 1,
+          borderColor: 'buttonColor'
+        }}
+        {...rest}
+      />
+
+      <FormControl.ErrorMessage _text={{ color: 'red.500' }}>
+        {errorMessage}
+      </FormControl.ErrorMessage>
+    </FormControl>
+  );
 }

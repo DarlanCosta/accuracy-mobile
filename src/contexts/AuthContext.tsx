@@ -33,8 +33,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
   async function storageUserAndTokenSave(userData: UserDTO, token: string, refresh_token: string) {
     try {
       setIsLoadingUserStorageData(true)
-      //Dentro do storageUserSave ta chegando os dados normalmente, mas o erro na na hora de guardar os dados
-      await storageUserSave(userData);
+      //Dentro do storageUserSave ta chegando os dados normalmente, mas o erro na na hora de guardar os dados, deixei comentado pra n dar erro
+
+      //await storageUserSave(userData);
+
       //dentro do storageAuthTokenSave tbm esta chegando normalmente os dados tem um console.log pra teste lá
       await storageAuthTokenSave({ token, refresh_token });
       
@@ -50,7 +52,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
       const { data } = await api.post('/sessions', { email, password });
 
       console.log(data)
-      
+
       if(data.user && data.token && data.refresh_token) {
         await storageUserAndTokenSave(data.user, data.token, data.refresh_token);
         userAndTokenUpdate(data.user, data.token)

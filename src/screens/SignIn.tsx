@@ -67,6 +67,7 @@ export function SignIn() {
                 keyboardType="email-address"
                 autoCapitalize="none"
                 onChangeText={onChange}
+                errorMessage={errors.email?.message}
               />
             )}
           />
@@ -80,9 +81,11 @@ export function SignIn() {
                 placeholder="Senha" 
                 secureTextEntry
                 onChangeText={onChange}
+                errorMessage={errors.password?.message}
               />
             )}
           />
+
 
           <Button 
             title="Acessar" 
