@@ -11,7 +11,14 @@ export async  function storageUserSave(userData: UserDTO) {
   const realm = await getRealm();
 
   console.log('storageUserSave-UserData =>', userData);
-    
+
+  if(userData.id, userData.name, userData.email, userData.avatar, userData.updated_at, userData.created_at) {
+    console.log('TA CERTO')
+  } else {
+    console.log('DEU CERTO NÃO :(')
+  }
+
+  //O problema esta Aqui
   try {
     realm.write(() => {
       const createdRealmUser = realm.create('UserRealm',{
@@ -19,6 +26,8 @@ export async  function storageUserSave(userData: UserDTO) {
         name: userData.name,
         email: userData.email,
         avatar: userData.avatar,
+        created_at: userData.created_at,
+        updated_at: userData.updated_at
       })
 
       console.log('Realm =>',createdRealmUser)
@@ -36,9 +45,7 @@ export async function storageUserGet() {
 
   try {
 
-    const response = realm.objects<UserDTO>('UserRealm').toString()
-
-    const user : UserDTO = response ? JSON.parse(response) : {}
+    const user = realm.objects<UserDTO>('UserRealm').toString()
 
     return user;
 
@@ -73,7 +80,7 @@ export async  function storageAuthTokenSave({token, refresh_token}: StorageAuthT
         refresh_token: refresh_token
        })
     
-       console.log('Realm =>',createdRealmToken)
+       console.log('AuthTokenSave =>',createdRealmToken)
      });
     
   } catch (error) {
@@ -83,22 +90,25 @@ export async  function storageAuthTokenSave({token, refresh_token}: StorageAuthT
   }
 }
 
-export async  function storageAuthTokenGet() {
+export async function storageAuthTokenGet(): Promise<StorageAuthTokenProps | null> {
   const realm = await getRealm();
 
   try {
-    const response = realm.objects<StorageAuthTokenProps>('AuthRealm').toString()
+    const authTokens = realm.objects<StorageAuthTokenProps>('AuthRealm').toJSON();
 
-    const { token, refresh_token }: StorageAuthTokenProps = response ? JSON.parse(response) : {}
-
-    return { token, refresh_token };
-
+    if (authTokens.length > 0) {
+      const { token, refresh_token } = authTokens[0] as StorageAuthTokenProps;
+      return { token: token.toString(), refresh_token: refresh_token.toString() };
+    } else {
+      return null; // Retorna null se não houver tokens salvos
+    }
   } catch (error) {
-    throw error
+    throw error;
   } finally {
     realm.close();
   }
 }
+
 
 export async  function storageAuthTokenRemove() {
   const realm = await getRealm();

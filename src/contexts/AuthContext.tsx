@@ -89,12 +89,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
     try {
       setIsLoadingUserStorageData(true);
 
-      const userLogged = await storageUserGet();
-      const { token } = await storageAuthTokenGet();
+      await storageUserGet();
+      await storageAuthTokenGet();
       
-      if(token && userLogged) {
-        userAndTokenUpdate(userLogged, token);
-      } 
+      
     } catch (error) {
       throw error
     } finally {
