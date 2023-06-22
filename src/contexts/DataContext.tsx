@@ -1,7 +1,8 @@
 import { ReactNode, createContext, useState } from "react";
 import { DataDTO } from "@dtos/DataDTO";
 import uuid from 'react-native-uuid';
-import { getRealm } from "@database/useRealm";
+import { useRealm } from "@database/index";
+import { Data } from "@database/schemas/DataSchema";
 
 export type DataContextProps = {
   data: DataDTO[];
@@ -21,17 +22,16 @@ export function DataContextProvider({ children }: DataContextProviderProps) {
   const [data, setData] = useState<DataDTO[]>([]);
 
   async function handleInsertCollect(data:DataDTO) {
-    const realm = await getRealm();
+    const realm = useRealm();
 
     try {
       realm.write(() => {
-       const created = realm.create('DataRealm',{
-          _id: uuid.v4(),
-          name: 'data.name',
-          ean: 'data.ean',
-          amount: 'data.amount',
-          amount_packing: 'data.amount_packing',
-        })
+       const created = realm.create('Data', Data.generate({
+        name: data.name,
+        ean: data.ean,
+        amount: data.amount,
+        amount_packing: data.amount_packing,
+      }))
 
         console.log('Realm =>',created)
       });

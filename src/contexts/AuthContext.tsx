@@ -2,14 +2,17 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 
 import { api } from '@services/api';
 import { UserDTO } from "@dtos/UserDTO";
-import { storageUserGet, storageUserRemove, storageUserSave } from "@database/storageHooks";
-import { storageAuthTokenGet, storageAuthTokenRemove, storageAuthTokenSave } from "@database/storageHooks";
+import { useQuery, useRealm } from "@realm/react";
+
+
+import { AuthToken } from "@database/schemas/AuthTokenSchema";
+import { User } from "@database/schemas/UserSchema";
 
 export type AuthContextDataProps = {
   user: UserDTO;
-  singIn: (email: string, password: string) => Promise<void>;
-  updateUserProfile: (userUpdated: UserDTO) => Promise<void>;
-  signOut: () => Promise<void>;
+  singIn: (email: string, password: string) => void;
+  updateUserProfile: (userUpdated: UserDTO) => void;
+  signOut: () => void;
   isLoadingUserStorageData: boolean;
 }
 
@@ -20,25 +23,52 @@ type AuthContextProviderProps = {
 export const AuthContext = createContext<AuthContextDataProps>({} as AuthContextDataProps);
 
 export function AuthContextProvider({ children }: AuthContextProviderProps)  {
+  const realm = useRealm();
 
   const [user, setUser] = useState<UserDTO>({} as UserDTO);
   const [isLoadingUserStorageData, setIsLoadingUserStorageData] = useState(true); 
 
-  async function userAndTokenUpdate(userData: UserDTO, token: string) {
+  function userAndTokenUpdate(userData: UserDTO, token: string) {
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       
     setUser(userData);
   }
 
-  async function storageUserAndTokenSave(userData: UserDTO, token: string, refresh_token: string) {
+  function storageUserAndTokenSave(userData: UserDTO, token: string, refresh_token: string) {
     try {
       setIsLoadingUserStorageData(true)
       //Dentro do storageUserSave ta chegando os dados normalmente, mas o erro na na hora de guardar os dados, deixei comentado pra n dar erro
 
-      //await storageUserSave(userData);
+      console.log('storageUserSave-UserData =>', userData);
+
+      if(userData.id, userData.name, userData.email, userData.avatar) {
+        console.log('TA CERTO')
+      } else {
+        console.log('DEU CERTO NÃO :(')
+      }
+
+      //O problema esta Aqui
+        realm.write(() => {
+          const createdRealmUser = realm.create('User', User.generate({
+            user_id: userData.id,
+            name: userData.name,
+            email: userData.email
+          }))
+
+          console.log('Realm =>',createdRealmUser)
+        });
 
       //dentro do storageAuthTokenSave tbm esta chegando normalmente os dados tem um console.log pra teste lá
-      await storageAuthTokenSave({ token, refresh_token });
+      console.log('AuthToken =>', token, refresh_token);
+      
+        realm.write(() => {
+          const createdRealmToken = realm.create('AuthToken', AuthToken.generate({
+            token: token,
+            refresh_token: refresh_token
+          }));
+        
+          console.log('AuthTokenSave =>',createdRealmToken)
+        });
       
     } catch (error) {
       throw error
@@ -54,7 +84,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
       console.log(data)
 
       if(data.user && data.token && data.refresh_token) {
-        await storageUserAndTokenSave(data.user, data.token, data.refresh_token);
+        storageUserAndTokenSave(data.user, data.token, data.refresh_token);
         userAndTokenUpdate(data.user, data.token)
       }
     } catch (error) {
@@ -64,12 +94,19 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
     }
   }
 
-  async function signOut() {
+  function signOut() {
     try {
       setIsLoadingUserStorageData(true);
       setUser({} as UserDTO);
-     await storageUserRemove();
-     await storageAuthTokenRemove();
+
+      realm.write(() => {
+        realm.delete(User)
+      })
+      
+      realm.write(() => {
+        realm.delete(AuthToken)
+      })
+
     } catch (error) {
       throw error;
     } finally {
@@ -77,22 +114,31 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
     }
   }
 
-  async function updateUserProfile(userUpdated: UserDTO) {
+  function updateUserProfile(userUpdated: UserDTO) {
     try {
       setUser(userUpdated);
-     await storageUserSave(userUpdated);
+
+      realm.write(() => {
+        const createdRealmUser = realm.create('User', User.generate({
+          user_id: userUpdated.id,
+          name: userUpdated.name,
+          email: userUpdated.email
+        }))
+
+        console.log('Realm =>',createdRealmUser)
+      });
     } catch (error) {
       throw error;
     }
   }
 
-  async function loadUserData() {
+  function loadUserData() {
     try {
       setIsLoadingUserStorageData(true);
 
-      await storageUserGet();
-      await storageAuthTokenGet();
+      useQuery(User)
       
+      useQuery(AuthToken)
       
     } catch (error) {
       throw error

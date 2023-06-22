@@ -1,24 +1,19 @@
+import 'react-native-get-random-values'
 import "react-native-gesture-handler";
+
 import "./src/translations/i18n";
 import { StatusBar } from "native-base";
 import React from "react";
 
 import { AuthContextProvider } from '@contexts/AuthContext';
 
-import {
-  useFonts,
-  Inter_400Regular,
-  Inter_600SemiBold,
-  Inter_700Bold,
-  Inter_800ExtraBold,
-} from "@expo-google-fonts/inter";
-
 import { NativeBaseProvider } from 'native-base'
 
-import { Loading } from "./src/components/";
 import { Routes } from "./src/routes";
 import { THEME } from "./src/theme";
+
 import { DataContextProvider } from "@contexts/DataContext";
+import { RealmProvider } from "@database/index";
 
 export default function App() {
 
@@ -31,7 +26,9 @@ export default function App() {
       />
       <AuthContextProvider>
         <DataContextProvider>
-           <Routes />
+          <RealmProvider>
+            <Routes />
+          </RealmProvider>
         </DataContextProvider>
       </AuthContextProvider>
     </NativeBaseProvider>

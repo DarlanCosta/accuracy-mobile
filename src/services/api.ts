@@ -1,7 +1,8 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 
 import { AppError } from "@utils/AppError";
-import { storageAuthTokenGet, storageAuthTokenSave } from "@database/storageHooks";
+import { AuthToken } from "@database/schemas/AuthTokenSchema";
+import { useObject, useQuery, useRealm } from "@database/index";
 
 type SignOut = () => void;
 
@@ -14,6 +15,13 @@ type APIInstanceProps = AxiosInstance & {
   registerInterceptTokenManager: (signOut: SignOut) => () => void;
 }
 
+type StorageAuthTokenProps = {
+  token: string;
+  refresh_token: string;
+}
+
+const realm = useRealm();
+
 const api = axios.create({
   baseURL: 'http://192.168.0.49:3333',
 }) as APIInstanceProps;
@@ -25,10 +33,10 @@ api.registerInterceptTokenManager = singOut => {
   const interceptTokenManager = api.interceptors.response.use((response) => response, async (requestError) => {
     if(requestError.response?.status === 401) {
       if(requestError.response.data?.message === 'token.expired' || requestError.response.data?.message === 'token.invalid') {
-        const authToken = await storageAuthTokenGet();
+        const authToken = useQuery(AuthToken)
 
         if (authToken !== null) {
-          const { refresh_token } = authToken;
+          const refresh_token = authToken;
 
           if (!refresh_token) {
             singOut();
@@ -56,7 +64,15 @@ api.registerInterceptTokenManager = singOut => {
           return new Promise(async (resolve, reject) => {
             try {
               const { data } = await api.post('/sessions/refresh-token', { refresh_token });
-              await storageAuthTokenSave({ token: data.token, refresh_token: data.refresh_token });
+
+              realm.write(() => {
+                const createdRealmToken = realm.create('AuthToken', AuthToken.generate({
+                  token: data.token,
+                  refresh_token: data.refresh_token
+                }));
+              
+                console.log('AuthTokenSave =>',createdRealmToken)
+              });
 
               if (originalRequestConfig.data) {
                 originalRequestConfig.data = JSON.parse(originalRequestConfig.data);
