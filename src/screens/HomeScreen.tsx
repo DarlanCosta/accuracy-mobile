@@ -7,7 +7,7 @@ export const HomeScreen = () => {
 
   function handleNavigationCollectData() {
     const params = {
-      name: 'Coca',
+      name: 'TESTE',
       ean: '12452232ww',
       amount: '',
       amount_packing: '42133',
